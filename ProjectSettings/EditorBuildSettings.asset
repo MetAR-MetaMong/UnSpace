@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Woojin/AR Scene.unity
+    guid: e649d2d1f3018a549b9c307e6e833d84
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: a583f8c1cb7a5704e85fe45d41eecbd1, type: 2}
     com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 923981cffc769d9428c959c49eb9115c, type: 2}
