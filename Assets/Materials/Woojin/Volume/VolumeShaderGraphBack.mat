@@ -8,7 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: VolumeShaderGraphBack
-  m_Shader: {fileID: -6465566751694194690, guid: 1e019cbc0c3bb9849aa09b2a85efe944, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 1e019cbc0c3bb9849aa09b2a85efe944,
+    type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -47,6 +48,7 @@ Material:
     - _CastShadows: 0
     - _Cull: 1
     - _DstBlend: 1
+    - _Intensity: 4
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SrcBlend: 5
