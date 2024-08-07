@@ -47,9 +47,9 @@ Material:
     - _Blend: 0
     - _CastShadows: 0
     - _Cull: 2
-    - _Density: 2.15
+    - _Density: 1
     - _DstBlend: 10
-    - _Intensity: 3.77
+    - _Intensity: 9
     - _QueueControl: 1
     - _QueueOffset: 0
     - _SrcBlend: 5
@@ -58,7 +58,7 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Albedo: {r: 0, g: 0.5643053, b: 1, a: 0}
+    - _Albedo: {r: 0, g: 0.21097231, b: 1, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &7664872718010023457
 MonoBehaviour:
