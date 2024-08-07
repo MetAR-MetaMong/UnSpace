@@ -7,8 +7,9 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VolumeShaderGraphFront
-  m_Shader: {fileID: -6465566751694194690, guid: 1e019cbc0c3bb9849aa09b2a85efe944, type: 3}
+  m_Name: FakeVolumeFront
+  m_Shader: {fileID: -6465566751694194690, guid: 927205139c7a6734b9854d483019525b,
+    type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
@@ -17,7 +18,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: -1
   stringTagMap:
     RenderType: Transparent
   disabledShaderPasses:
@@ -43,12 +44,13 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Blend: 2
+    - _Blend: 0
     - _CastShadows: 0
     - _Cull: 2
-    - _DstBlend: 1
-    - _Intensity: 4
-    - _QueueControl: 0
+    - _Density: 2.15
+    - _DstBlend: 10
+    - _Intensity: 3.77
+    - _QueueControl: 1
     - _QueueOffset: 0
     - _SrcBlend: 5
     - _Surface: 1
@@ -56,9 +58,9 @@ Material:
     - _ZWrite: 0
     - _ZWriteControl: 0
     m_Colors:
-    - _Albedo: {r: 0.028846137, g: 0.4673076, b: 0.9, a: 1}
+    - _Albedo: {r: 0, g: 0.5643053, b: 1, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &4322836725334791543
+--- !u!114 &7664872718010023457
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
