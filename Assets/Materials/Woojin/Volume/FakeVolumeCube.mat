@@ -59,7 +59,7 @@ Material:
     m_Colors:
     - _Absorption: {r: 0.98475003, g: 1, b: 0, a: 0}
     - _Albedo: {r: 0, g: 0.33140135, b: 1, a: 1}
-    - _Emission: {r: 0, g: 0.31615448, b: 1, a: 1}
+    - _Emission: {r: 1, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &8881744280362613645
