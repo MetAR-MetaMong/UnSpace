@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum eState{
     NULL, Vacant, Selected, Occupied, OccupiedSelected
@@ -20,6 +21,7 @@ public class CheckBox : MonoBehaviour
         _meshRenderer = GetComponent<MeshRenderer>();
         _meshRenderer.sharedMaterial = new Material(_meshRenderer.sharedMaterial);
         state = eState.Vacant;
+        _meshRenderer.sharedMaterial.SetColor("_Emission", ColorLibrary.state2Color[(int)state]);
     }
     public void ToggleColor() {
         switch (state) {
@@ -33,7 +35,7 @@ public class CheckBox : MonoBehaviour
                 state = eState.OccupiedSelected;
                 break;
             case eState.OccupiedSelected:
-                state = eState.OccupiedSelected;
+                state = eState.Occupied;
                 break;
         }
         _meshRenderer.sharedMaterial.SetColor("_Emission", ColorLibrary.state2Color[(int)state]);
