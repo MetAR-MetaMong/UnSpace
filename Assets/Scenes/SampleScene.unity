@@ -1798,7 +1798,9 @@ MonoBehaviour:
   - {fileID: 1437351316}
   - {fileID: 918138512}
   - {fileID: 1194181187}
-  infoPrefab: {fileID: 9013473542532553435, guid: 70337e7a7b02bb9428fa4973c024577f, type: 3}
+  depths: []
+  sortedIndices: 
+  infoPrefab: {fileID: 6489280310119754046, guid: 70337e7a7b02bb9428fa4973c024577f, type: 3}
 --- !u!1001 &1933156953
 PrefabInstance:
   m_ObjectHideFlags: 0
