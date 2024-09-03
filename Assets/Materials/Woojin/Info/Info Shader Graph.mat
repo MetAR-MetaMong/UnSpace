@@ -42,7 +42,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BGTransparency: 0.5
-    - _OutlineThickness: 0.02
+    - _OutlineThickness: 0.03
     - _Percentage: 0.385
     m_Colors:
     - _BGColor: {r: 1, g: 1, b: 1, a: 0.10980392}

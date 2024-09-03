@@ -1750,7 +1750,7 @@ Canvas:
   serializedVersion: 3
   m_RenderMode: 1
   m_Camera: {fileID: 37276162}
-  m_PlaneDistance: 18
+  m_PlaneDistance: 10
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
@@ -1793,14 +1793,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0a924cc660391d4aa8802b0cc932fd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0.6, z: 0}
+  offset: {x: 0, y: 0.35, z: 0}
   sources:
-  - {fileID: 1437351316}
   - {fileID: 918138512}
+  - {fileID: 1437351316}
+  - {fileID: 2084926861}
   - {fileID: 1194181187}
-  depths: []
   sortedIndices: 
   infoPrefab: {fileID: 6489280310119754046, guid: 70337e7a7b02bb9428fa4973c024577f, type: 3}
+  _instantiatedInfos: []
 --- !u!1001 &1933156953
 PrefabInstance:
   m_ObjectHideFlags: 0

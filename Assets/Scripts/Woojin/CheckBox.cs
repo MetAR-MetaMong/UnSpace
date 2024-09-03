@@ -40,4 +40,20 @@ public class CheckBox : MonoBehaviour
         }
         _meshRenderer.sharedMaterial.SetColor("_Emission", ColorLibrary.state2Color[(int)state]);
     }
+
+    public void UpdateState(int state, int startEpoch, int borrowTimeInSeconds) {
+        this.state = (eState)state;
+        this.startTimeEpoch = startEpoch;
+        this.endTimeEpoch = startEpoch + borrowTimeInSeconds;
+        _meshRenderer.sharedMaterial.SetColor("_Emission", ColorLibrary.state2Color[(int)state]);
+    }
+
+    private void FixedUpdate() {
+        if (endTimeEpoch <= currentTimeEpoch) {
+            Debug.Log("빌리는 시간 끝났음!!!");
+            ReactManager.Instance.UpdatePing(this.gameObject);
+        }
+    }
+
+
 }

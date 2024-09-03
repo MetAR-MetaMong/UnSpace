@@ -47,7 +47,7 @@ public class TouchManager : MonoBehaviour
             // Check if the ray hit a collider
             if (hit.collider.CompareTag("Rentable")) // Optional: Use tags to filter specific colliders
             {
-                ReactManager.Set(hit.collider.gameObject);
+                ReactManager.SetClick(hit.collider.gameObject);
                 hit.collider.GetComponent<CheckBox>().ToggleColor();
             }
         }
