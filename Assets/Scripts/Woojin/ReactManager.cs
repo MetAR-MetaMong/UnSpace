@@ -38,7 +38,7 @@ public class ReactManager : Singleton<ReactManager>
 #endif
     }
 
-    public void Get(string spaceName, int state, int startEpoch, int borrowTimeInSeconds) {
+    public void Fetch(string spaceName, int state, int startEpoch, int borrowTimeInSeconds) {
         for (int i = 0; i < checkboxes.Count; i++) {
             if (checkboxes[i].gameObject.name != spaceName) continue;
             checkboxes[i].UpdateState(state, startEpoch, borrowTimeInSeconds);

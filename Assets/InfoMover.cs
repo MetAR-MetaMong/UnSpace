@@ -85,7 +85,7 @@ public class InfoMover : MonoBehaviour
             // 깊이 순서에 따라 충돌 검사 및 위치 조정
             for (int n = 0; n < 5; n++) {
                 flag = true;
-                for (int j = 0; j < i; j++) {
+                for (int j = i - 1; j > 0; j--) {
                     int prevIndex = sortedIndices[j];
                     if (_instantiatedInfos[prevIndex].depth < 0) continue;
                     RectTransform rect1 = _instantiatedInfos[prevIndex].trs;

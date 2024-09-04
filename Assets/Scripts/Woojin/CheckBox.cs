@@ -45,7 +45,7 @@ public class CheckBox : MonoBehaviour
         _meshRenderer.SetPropertyBlock(_block);
     }
 
-    public void UpdateState(int state, int startEpoch, int borrowTimeInSeconds) {
+    public void FetchState(int state, int startEpoch, int borrowTimeInSeconds) {
         this.state = (eState)state;
         this.startTimeEpoch = startEpoch;
         this.endTimeEpoch = startEpoch + borrowTimeInSeconds;
