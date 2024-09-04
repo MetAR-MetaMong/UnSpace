@@ -7,31 +7,25 @@ public enum SpaceList{
     NULL, Arena, Classroom, LabA, LabB, LabC, LabD
 }
 public enum ObjList{
-    NULL, Desk, Whiteboard1, Whiteboard2, Com1, Com2, Com3, Com4
+    NULL, Desk, Whiteboard, Computer
 }
 
-public class ReactManager : MonoBehaviour
+public class ReactManager : Singleton<ReactManager>
 {
-    private static ReactManager instanace;
-    public static ReactManager Instance => instanace;
     public List<CheckBox> checkboxes;
 
     [DllImport("__Internal")] private static extern void SetPlaceCheck (string name);
     [DllImport("__Internal")] private static extern string UpdatePlace (string name);
 
-    private void Awake() {
-        if (instanace == null) {
-            instanace = this;
-        } else {
-            Destroy(this);
-        }
-    }
-
     public static void SetClick(GameObject go) {
         string[] words = go.name.Split(' ');
         int space = (int)(SpaceList)Enum.Parse(typeof(SpaceList), words[0]);
         int obj = (int)(ObjList)Enum.Parse(typeof(ObjList), words[1]);
-        Debug.Log(space + ", " + obj);
+        int number = 0;
+        if (words.Length > 2) {
+            number = int.Parse(words[2]);
+        }
+        Debug.Log(space + ", " + obj + ", " + number);
 
 #if UNITY_WEBGL == true && UNITY_EDITOR == false
         SetPlaceCheck(go.name);

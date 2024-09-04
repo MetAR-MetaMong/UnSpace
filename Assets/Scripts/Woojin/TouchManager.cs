@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class TouchManager : MonoBehaviour
+public class TouchManager : Singleton<TouchManager>
 {
     private Camera mainCamera;
     public InputActionProperty positionProperty, touchProperty;

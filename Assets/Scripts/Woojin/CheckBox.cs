@@ -13,15 +13,18 @@ public static class ColorLibrary{
 public class CheckBox : MonoBehaviour
 {
     private MeshRenderer _meshRenderer;
+    MaterialPropertyBlock _block;
     public eState state;
     public int currentTimeEpoch; // seconds since Unix epoch
     public int startTimeEpoch, endTimeEpoch;
 
     void Awake() {
         _meshRenderer = GetComponent<MeshRenderer>();
-        _meshRenderer.sharedMaterial = new Material(_meshRenderer.sharedMaterial);
+        _block = new MaterialPropertyBlock();
+        _meshRenderer.GetPropertyBlock(_block);
         state = eState.Vacant;
-        _meshRenderer.sharedMaterial.SetColor("_Emission", ColorLibrary.state2Color[(int)state]);
+        _block.SetColor("_Emission", ColorLibrary.state2Color[(int)state]);
+        _meshRenderer.SetPropertyBlock(_block);
     }
     public void ToggleColor() {
         switch (state) {
@@ -38,14 +41,16 @@ public class CheckBox : MonoBehaviour
                 state = eState.Occupied;
                 break;
         }
-        _meshRenderer.sharedMaterial.SetColor("_Emission", ColorLibrary.state2Color[(int)state]);
+        _block.SetColor("_Emission", ColorLibrary.state2Color[(int)state]);
+        _meshRenderer.SetPropertyBlock(_block);
     }
 
     public void UpdateState(int state, int startEpoch, int borrowTimeInSeconds) {
         this.state = (eState)state;
         this.startTimeEpoch = startEpoch;
         this.endTimeEpoch = startEpoch + borrowTimeInSeconds;
-        _meshRenderer.sharedMaterial.SetColor("_Emission", ColorLibrary.state2Color[(int)state]);
+        _block.SetColor("_Emission", ColorLibrary.state2Color[(int)state]);
+        _meshRenderer.SetPropertyBlock(_block);
     }
 
     private void FixedUpdate() {

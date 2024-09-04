@@ -5,13 +5,13 @@ public class InfoMover : MonoBehaviour
 {
     [System.Serializable]
     class instantiatedInfo{
-        public Transform source;
+        public CheckBox source;
         public float depth;
         public int collisionCount;
         public RectTransform trs;
         public LineRenderer lineRenderer;
 
-        public instantiatedInfo(Transform source, float depth, RectTransform trs, LineRenderer lineRenderer){
+        public instantiatedInfo(CheckBox source, float depth, RectTransform trs, LineRenderer lineRenderer){
             this.source = source;
             this.depth = depth;
             this.collisionCount = 0;
@@ -23,7 +23,7 @@ public class InfoMover : MonoBehaviour
     public Vector3 offset;
     public int padding = 10;
 
-    public List<Transform> sources = new();
+    public List<CheckBox> sources = new();
     public List<int> sortedIndices = new(); // 깊이에 따른 순서
     public GameObject infoPrefab;
     [SerializeField] private List<instantiatedInfo> _instantiatedInfos = new(); // 위치를 설정할 이미지의 RectTransform
@@ -34,7 +34,7 @@ public class InfoMover : MonoBehaviour
     private void Awake() {
         _uiCamera = Camera.main;
         rectTransform = GetComponent<RectTransform>();
-        foreach (Transform _ in sources) {
+        foreach (CheckBox _ in sources) {
             // _instantiatedRectTransforms.Add(Instantiate(infoPrefab, transform).GetComponent<RectTransform>());
             var inst = Instantiate(infoPrefab, transform);
             _instantiatedInfos.Add(new instantiatedInfo(_, 0, inst.GetComponent<RectTransform>(), inst.GetComponentInChildren<LineRenderer>()));
@@ -45,7 +45,7 @@ public class InfoMover : MonoBehaviour
     {
         // 각 요소의 깊이 계산
         for (int i = 0; i < _instantiatedInfos.Count; i++) {
-            _instantiatedInfos[i].depth = Vector3.Dot(_instantiatedInfos[i].source.position - _uiCamera.transform.position, _uiCamera.transform.forward);
+            _instantiatedInfos[i].depth = Vector3.Dot(_instantiatedInfos[i].source.transform.position - _uiCamera.transform.position, _uiCamera.transform.forward);
             if (_instantiatedInfos[i].depth < 0) {
                 _instantiatedInfos[i].trs.gameObject.SetActive(false);
             } else {
@@ -66,7 +66,7 @@ public class InfoMover : MonoBehaviour
             if (_instantiatedInfos[index].depth < 0) continue;
 
             // 소스의 월드 위치를 RectTransform의 로컬 위치로 변환
-            Vector2 localPoint = WorldPointToCanvasPosition(_instantiatedInfos[index].source.position + _instantiatedInfos[index].source.TransformDirection(offset));
+            Vector2 localPoint = WorldPointToCanvasPosition(_instantiatedInfos[index].source.transform.position + _instantiatedInfos[index].source.transform.TransformDirection(offset));
             
 
             // 요소 배치
@@ -109,7 +109,7 @@ public class InfoMover : MonoBehaviour
             }
 
 
-            Vector2 localPoint2 = WorldPointToCanvasPosition(_instantiatedInfos[index].source.position);
+            Vector2 localPoint2 = WorldPointToCanvasPosition(_instantiatedInfos[index].source.transform.position);
             _instantiatedInfos[index].lineRenderer.SetPosition(0, Vector3.zero);
             _instantiatedInfos[index].lineRenderer.SetPosition(1,  localPoint2 - new Vector2(_instantiatedInfos[index].trs.localPosition.x, _instantiatedInfos[index].trs.localPosition.y));
         }
@@ -150,7 +150,6 @@ public class InfoMover : MonoBehaviour
     bool TestCapsuleCapsule(Vector3 a1, Vector3 b1, float r1, Vector3 a2, Vector3 b2, float r2, out Vector3 distance) {
         float distSqr = ClosestPtSegmentSegment(a1, b1, a2, b2, out float s, out float t, out Vector3 c1, out Vector3 c2);
         float radius = r1 + r2;
-        Debug.Log(c2 - c1);
         if (c2 == c1) {
             distance = (r1 + r2) * Vector3.up;
         }
