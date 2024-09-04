@@ -7,23 +7,28 @@ public class InfoMover : MonoBehaviour
     class instantiatedInfo{
         public Transform source;
         public float depth;
+        public int collisionCount;
         public RectTransform trs;
         public LineRenderer lineRenderer;
 
         public instantiatedInfo(Transform source, float depth, RectTransform trs, LineRenderer lineRenderer){
             this.source = source;
             this.depth = depth;
+            this.collisionCount = 0;
             this.trs = trs;
             this.lineRenderer = lineRenderer;
         }
     }
+
     public Vector3 offset;
-    private Camera _uiCamera; // Canvas의 Render Camera
+    public int padding = 10;
+
     public List<Transform> sources = new();
     public List<int> sortedIndices = new(); // 깊이에 따른 순서
     public GameObject infoPrefab;
     [SerializeField] private List<instantiatedInfo> _instantiatedInfos = new(); // 위치를 설정할 이미지의 RectTransform
 
+    private Camera _uiCamera; // Canvas의 Render Camera
     private RectTransform rectTransform;
 
     private void Awake() {
@@ -40,7 +45,12 @@ public class InfoMover : MonoBehaviour
     {
         // 각 요소의 깊이 계산
         for (int i = 0; i < _instantiatedInfos.Count; i++) {
-            _instantiatedInfos[i].depth = Vector3.Dot((_instantiatedInfos[i].source.position - _uiCamera.transform.position), _uiCamera.transform.forward);
+            _instantiatedInfos[i].depth = Vector3.Dot(_instantiatedInfos[i].source.position - _uiCamera.transform.position, _uiCamera.transform.forward);
+            if (_instantiatedInfos[i].depth < 0) {
+                _instantiatedInfos[i].trs.gameObject.SetActive(false);
+            } else {
+                _instantiatedInfos[i].trs.gameObject.SetActive(true);
+            }
         }
 
         // 깊이에 따른 순서 계산
@@ -53,6 +63,7 @@ public class InfoMover : MonoBehaviour
         // 정렬된 순서에 따라 UI 요소 배치
         for (int i = 0; i < sortedIndices.Count; i++) {
             int index = sortedIndices[i];
+            if (_instantiatedInfos[index].depth < 0) continue;
 
             // 소스의 월드 위치를 RectTransform의 로컬 위치로 변환
             Vector2 localPoint = WorldPointToCanvasPosition(_instantiatedInfos[index].source.position + _instantiatedInfos[index].source.TransformDirection(offset));
@@ -62,26 +73,33 @@ public class InfoMover : MonoBehaviour
             _instantiatedInfos[index].trs.localPosition = localPoint;
         }
 
+        for (int i = 0; i < _instantiatedInfos.Count; i++) {
+            _instantiatedInfos[i].collisionCount = 0;
+        }
+
         for (int i = 0; i < sortedIndices.Count; i++) {
             int index = sortedIndices[i];
+            if (_instantiatedInfos[index].depth < 0) continue;
             bool flag = false;
-
+            
             // 깊이 순서에 따라 충돌 검사 및 위치 조정
             for (int n = 0; n < 5; n++) {
                 flag = true;
                 for (int j = 0; j < i; j++) {
                     int prevIndex = sortedIndices[j];
+                    if (_instantiatedInfos[prevIndex].depth < 0) continue;
                     RectTransform rect1 = _instantiatedInfos[prevIndex].trs;
                     RectTransform rect2 = _instantiatedInfos[index].trs;
                     
                     if (LocalCapsuleOverlap(rect1, rect2, out Vector3 o)) {
                         flag = false;
+                        _instantiatedInfos[index].collisionCount++;
                         Vector3 target = rect2.localPosition;
-                        //target += o;
-                        //if (o.y <= 0) target = rect1.localPosition + Vector3.Scale((target - rect1.localPosition), new Vector2(1, -1));
-                        //if (o == Vector3.zero) target += Vector3.up * 120;
-                        // Debug.Log(i + ": " + j + " => " + (target - rect2.localPosition));
-                        target.y = rect1.localPosition.y + 120f;
+                        target += o;
+                        if (o.y <= 0) target = rect1.localPosition + Vector3.Scale((target - rect1.localPosition), new Vector2(1, -1));
+                        //if (o == Vector3.zero) target += Vector3.up * (100 + padding * 2);
+                        // Debug.Log(i + ": " + j + " => " + o);
+                        // target.y = rect1.localPosition.y + 120f;
                         
                         _instantiatedInfos[index].trs.localPosition = target;
                     }
@@ -119,18 +137,24 @@ public class InfoMover : MonoBehaviour
 
         Vector3 a1 = rect1Bounds.center + (rect1Bounds.width - rect1Bounds.height) * 0.5f * Vector2.right;
         Vector3 b1 = rect1Bounds.center - (rect1Bounds.width - rect1Bounds.height) * 0.5f * Vector2.right;
-        float r1 = rect1Bounds.height * 0.5f + 10;
+        float r1 = rect1Bounds.height * 0.5f + padding;
 
         Vector3 a2 = rect2Bounds.center + (rect2Bounds.width - rect2Bounds.height) * 0.5f * Vector2.right;
         Vector3 b2 = rect2Bounds.center - (rect2Bounds.width - rect2Bounds.height) * 0.5f * Vector2.right;
-        float r2 = rect2Bounds.height * 0.5f + 10;
+        float r2 = rect2Bounds.height * 0.5f + padding;
 
-        return TestCapsuleCapsule(a1, b1, r1, a2, b2, r2, out offset);
+        bool isCollided = TestCapsuleCapsule(a1, b1, r1, a2, b2, r2, out offset);
+        if (isCollided) return offset.magnitude > 0.1f;
+        else return false;
     }
-    bool TestCapsuleCapsule(Vector3 a1, Vector3 b1, float r1, Vector3 a2, Vector3 b2, float r2, out Vector3 offset) {
+    bool TestCapsuleCapsule(Vector3 a1, Vector3 b1, float r1, Vector3 a2, Vector3 b2, float r2, out Vector3 distance) {
         float distSqr = ClosestPtSegmentSegment(a1, b1, a2, b2, out float s, out float t, out Vector3 c1, out Vector3 c2);
         float radius = r1 + r2;
-        offset = (c2 - c1).normalized * (-(c2 - c1).magnitude + r1 * 2);
+        Debug.Log(c2 - c1);
+        if (c2 == c1) {
+            distance = (r1 + r2) * Vector3.up;
+        }
+        else distance = -(c2 - c1) + (c2 - c1).normalized * (r1 + r2);
         return distSqr <= radius * radius;
     }
 

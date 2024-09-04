@@ -484,6 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13b9d75bf29e86ba78db6560876b84f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  checkboxes: []
 --- !u!4 &147606200
 Transform:
   m_ObjectHideFlags: 0
@@ -1534,7 +1535,7 @@ Transform:
   m_GameObject: {fileID: 1559220995}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.12, y: 0, z: 13.5}
+  m_LocalPosition: {x: -4.38, y: 0, z: 13.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1794,11 +1795,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0.35, z: 0}
+  padding: 10
   sources:
   - {fileID: 918138512}
   - {fileID: 1437351316}
   - {fileID: 2084926861}
   - {fileID: 1194181187}
+  - {fileID: 192943237}
   sortedIndices: 
   infoPrefab: {fileID: 6489280310119754046, guid: 70337e7a7b02bb9428fa4973c024577f, type: 3}
   _instantiatedInfos: []

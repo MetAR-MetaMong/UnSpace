@@ -50,7 +50,7 @@ public class CheckBox : MonoBehaviour
 
     private void FixedUpdate() {
         if (endTimeEpoch <= currentTimeEpoch) {
-            Debug.Log("빌리는 시간 끝났음!!!");
+            // Debug.Log("빌리는 시간 끝났음!!!");
             ReactManager.Instance.UpdatePing(this.gameObject);
         }
     }
